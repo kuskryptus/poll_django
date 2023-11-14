@@ -1,0 +1,39 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Barlow+Condensed:wght@300&family=Roboto:ital,wght@4,100;1,400&display=swap');
+</style>
+
+<body>
+    <form method="post" action="{% url 'polls:vote' poll.id %}">
+        {% csrf_token %}
+        {% for question in questions %}
+        <fieldset>
+            <legend>
+                <h1>{{ question.question_text }}</h1>
+            </legend>
+            {% if error_message and question in missing_questions %}
+            <p><strong>{{ error_message }}</strong></p>
+            {% endif %}
+            {% for choice in question.choices.all %}
+            <input type="radio" name="choice{{ question.id }}" id="choice{{ question.id }}_{{ forloop.counter }}"
+                value="{{ choice.id }}" {% if choice.selected %}checked{% endif %}>
+            <label for="choice{{ question.id }}_{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            {% endfor %}
+        </fieldset>
+        {% endfor %}
+        <input type="submit" value="Vote">
+    </form>
+</body>
+<script>
+
+</script>
+
+<style>
+    li a {
+        color: green;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+</style>

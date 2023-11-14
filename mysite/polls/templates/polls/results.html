@@ -1,0 +1,92 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Barlow+Condensed:wght@300&family=Roboto:ital,wght@4,100;1,400&display=swap');
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<body>
+  <h2>Poll: {{ poll }}</h2>
+  <div class="text">
+
+    {% for question in question_data %}
+    <h1>{{ question.question_text }}</h1>
+
+    <h3>Stats:</h3>
+    <ul>
+      {% for choice in question.choices %}
+      <li>{{ choice.choice_text }}: {{ choice.answer_count }}</li>
+      {% endfor %}
+    </ul>
+
+    <h4>Chart:</h4>
+    <div>
+      <div style="display:flex; flex-direction: row; justify-content: center;width: 400px;">
+        <canvas id="mychart{{ forloop.counter }}" width="300" height="200"></canvas>
+      </div>
+
+
+      <script>
+        var ctx{{ forloop.counter }} = document.getElementById("mychart{{ forloop.counter }}").getContext('2d');
+        var chartData{{ forloop.counter }} = {
+          labels: [{% for choice in question.choices %} "{{choice.choice_text}}", {% endfor %}],
+        datasets: [{
+          label: '# of Votes',
+          data: [{% for choice in question.choices %}"{{choice.answer_count}}", {% endfor %}],
+          borderWidth: 1,
+            backgroundColor: [
+              "rgba(15,99,132,0.7)",
+              "rgba(155,49,132,0.7)",
+              "rgba(15,99,32,0.7)",
+              "rgba(25,59,232,0.7)",
+              "rgba(255,99,132,0.7)",
+            ],
+        }]
+      };
+
+        var chartOptions{{ forloop.counter }} = {
+          responsive: true,
+            maintainAspectRatio: false,
+              scales: {
+            y: {
+              beginAtZero: true,
+          }
+          }
+        };
+
+        new Chart(ctx{{ forloop.counter }}, {
+          type: 'bar',
+          data: chartData{{ forloop.counter }},
+          options: chartOptions{{ forloop.counter }},
+      });
+      </script>
+
+      {% endfor %}
+    </div>
+
+    <style>
+      li a {
+        color: green;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .home_page {
+        position: fixed;
+        background-color: rgb(65, 65, 65);
+        border-radius: 4px;
+        margin: 10px;
+        top: 0;
+        right: 0;
+      }
+
+      a {
+        text-decoration: none;
+        font-weight: 500;
+        color: whitesmoke;
+      }
+    </style>
+    <button class="home_page"><a href="{% url 'polls:index' %}">Back to Polls</a></button>
+  </div>
+</body>

@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Barlow+Condensed:wght@300&family=Roboto:ital,wght@5,100;1,400&display=swap');
+
+li a {
+    color: green;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
