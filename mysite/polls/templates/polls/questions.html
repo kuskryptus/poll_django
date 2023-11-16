@@ -2,8 +2,10 @@
     @import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Barlow+Condensed:wght@300&family=Roboto:ital,wght@4,100;1,400&display=swap');
 </style>
 
+<!-- All questions with choices for given poll. -->
+
 <body>
-    <form method="post" action="{% url 'polls:vote' poll.id %}">
+    <form method="post" action="{% url 'polls:vote_api' poll.id %}">
         {% csrf_token %}
         {% for question in questions %}
         <fieldset>

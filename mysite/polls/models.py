@@ -10,7 +10,7 @@ class Poll(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     indexes = [
-        models.Index(fields=['create_at']),
+        models.Index(fields=["create_at"]),
     ]
 
     def __str__(self):
@@ -20,15 +20,13 @@ class Poll(models.Model):
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
-    poll = models.ForeignKey(Poll,
-                             on_delete=models.CASCADE,
-                             related_name='questions')
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="questions")
 
     def __str__(self):
         return self.question_text
 
     indexes = [
-        models.Index(fields=['pub_date']),
+        models.Index(fields=["pub_date"]),
     ]
 
     @admin.display(
@@ -42,14 +40,14 @@ class Question(models.Model):
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question,
-                                 on_delete=models.CASCADE,
-                                 related_name="choices")
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, related_name="choices"
+    )
     choice_text = models.CharField(max_length=250)
     selected = models.BooleanField(default=False)
 
     indexes = [
-        models.Index(fields=['choice_text']),
+        models.Index(fields=["choice_text"]),
     ]
 
     def __str__(self):
@@ -67,16 +65,14 @@ class Choice(models.Model):
 
 
 class Answer(models.Model):
-    choice = models.ForeignKey("Choice",
-                               models.ForeignKey,
-                               related_name="answers")
+    choice = models.ForeignKey("Choice", models.ForeignKey, related_name="answers")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         get_latest_by = "created_at"
 
     indexes = [
-        models.Index(fields=['created_at']),
+        models.Index(fields=["created_at"]),
     ]
 
     def __str__(self):

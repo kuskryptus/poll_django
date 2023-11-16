@@ -16,14 +16,14 @@
       <li>{{ choice.choice_text }}: {{ choice.answer_count }}</li>
       {% endfor %}
     </ul>
-
+    <!-- Statistical chart displaying the number of answers for each choice. -->
     <h4>Chart:</h4>
     <div>
       <div style="display:flex; flex-direction: row; justify-content: center;width: 400px;">
         <canvas id="mychart{{ forloop.counter }}" width="300" height="200"></canvas>
       </div>
 
-
+      <!-- Chart logic -->
       <script>
         var ctx{{ forloop.counter }} = document.getElementById("mychart{{ forloop.counter }}").getContext('2d');
         var chartData{{ forloop.counter }} = {

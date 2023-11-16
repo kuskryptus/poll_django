@@ -3,12 +3,12 @@ from .models import Question, Choice, Answer, Poll
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Answer
-        fields = '__all__'
+        fields = "__all__"
 
 
+# Serializers with relationships
 class ChoiceSerializer(serializers.ModelSerializer):
     num_answers = serializers.SerializerMethodField()
 
@@ -17,7 +17,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Choice
-        fields = ('id', 'choice_text', "num_answers")
+        fields = ("id", "choice_text", "num_answers")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ('id', 'question_text', 'pub_date', "choices")
+        fields = ("id", "question_text", "pub_date", "choices")
 
 
 class PollDetailSerializer(serializers.ModelSerializer):
@@ -33,4 +33,4 @@ class PollDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Poll
-        fields = ('id', 'poll_name', 'created_at', 'questions')
+        fields = ("id", "poll_name", "created_at", "questions")

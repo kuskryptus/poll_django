@@ -5,8 +5,8 @@ from django.dispatch import receiver
 from polls.models import Answer
 
 
+# Singnal that will be executed when answer is deleted or updated.
 @receiver(post_save, sender=Answer)
 @receiver(post_delete, sender=Answer)
 def clear_cache(sender, instance, **kwargs):
-    print("Cache cleared!")
     cache.clear()
