@@ -38,7 +38,7 @@ class DetailView(generic.DetailView):
         return context
 
 
-# View to disply results for given poll.
+# View to display results for given poll.
 class ResultsView(generic.DetailView):
     model = Poll
     template_name = "polls/results.html"
@@ -87,7 +87,7 @@ def vote(request, poll_id):
     poll = Poll.objects.prefetch_related("questions").get(pk=poll_id)
     answers = []
 
-    # Filtering this question that have selected choice change and mark them as true in db.
+    # Filtering this question that have selected choice, and mark them as true in db.
     for question in poll.questions.all():
         selected_choice_ids = [int(request.POST.get(f"choice{question.id}", 0))]
 
@@ -96,7 +96,7 @@ def vote(request, poll_id):
                 id__in=selected_choice_ids, question=question
             )
             choice_queryset.update(selected=True)
-
+        # Marking all choices as False except those in the list of selected choices above.
         Choice.objects.exclude(id__in=selected_choice_ids).filter(
             question=question
         ).update(selected=False)

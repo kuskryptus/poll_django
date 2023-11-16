@@ -4,7 +4,7 @@ from django.utils import timezone
 from polls.models import Question, Answer, Choice, Poll
 
 
-# This will genrate a large sample of data for poll, question, and choice
+# This will genrate a large sample of data for poll, question, and choice.
 class Command(BaseCommand):
     help = "Create Sample Data"
 

@@ -8,7 +8,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# Serializers with relationships
+# Serializers with relationships.
 class ChoiceSerializer(serializers.ModelSerializer):
     num_answers = serializers.SerializerMethodField()
 
