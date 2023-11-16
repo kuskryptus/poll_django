@@ -5,7 +5,7 @@
 <!-- All questions with choices for given poll. -->
 
 <body>
-    <form method="post" action="{% url 'polls:vote_api' poll.id %}">
+    <form method="post" action="{% url 'polls:vote' poll.id %}">
         {% csrf_token %}
         {% for question in questions %}
         <fieldset>
