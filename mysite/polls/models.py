@@ -10,7 +10,7 @@ class Poll(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     indexes = [
-        models.Index(fields=["create_at"]),
+        models.Index(fields=["create_at","poll_name"]),
     ]
 
     def __str__(self):
@@ -26,7 +26,7 @@ class Question(models.Model):
         return self.question_text
 
     indexes = [
-        models.Index(fields=["pub_date"]),
+        models.Index(fields=["pub_date","question_text"]),
     ]
 
     @admin.display(

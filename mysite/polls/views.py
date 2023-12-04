@@ -44,7 +44,7 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
     def get_object(self, queryset=None):
-        poll_id = self.kwargs.get("poll_id")
+        poll_id = self.kwargs.get("poll_id") 
         return get_object_or_404(
             Poll.objects.prefetch_related(
                 Prefetch(
@@ -57,14 +57,12 @@ class ResultsView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        poll_id = self.kwargs.get("poll_id")
-
         poll = self.get_object()
         question_data = []
 
         for question in poll.questions.all():
             choice_data = []
-
+            
             for choice in question.choices.all():
                 choice_data.append(
                     {
@@ -72,7 +70,6 @@ class ResultsView(generic.DetailView):
                         "answer_count": choice.answer_count,
                     }
                 )
-
             question_data.append(
                 {"question_text": question.question_text, "choices": choice_data}
             )
@@ -90,6 +87,7 @@ def vote(request, poll_id):
     # Filtering this question that have selected choice, and mark them as true in db.
     for question in poll.questions.all():
         selected_choice_ids = [int(request.POST.get(f"choice{question.id}", 0))]
+        
 
         with transaction.atomic():
             choice_queryset = Choice.objects.filter(
@@ -110,11 +108,8 @@ def vote(request, poll_id):
             answers.append(answer)
 
         except (KeyError, Choice.DoesNotExist):
-            missing_questions = [
-                question
-                for question in poll.questions.all()
-                if not request.POST.get(f"choice{question.id}")
-            ]
+            missing_questions = [question for question in poll.questions.all()\
+                if not request.POST.get(f"choice{question.id}")]
 
             return render(
                 request,
@@ -142,12 +137,11 @@ class VoteApiView(APIView):
     def post(self, request, poll_id):
         poll = Poll.objects.get(pk=poll_id)
         answers_data = request.POST
-        print(answers_data)
         questions = poll.questions.all().count()
         answers = []
 
-        # Geting question id from key in request +
-        # it's selected choice_id and adding answers to the list.
+        """ Geting question id from key in request +
+        it's selected choice_id and adding answers to the list. """
         for question_id, choice_id in answers_data.items():
             if question_id.startswith("choice") and choice_id:
                 try:
@@ -185,7 +179,6 @@ class VoteApiView(APIView):
 # api view for geting statistic data
 class PollDetailView(RetrieveAPIView):
     queryset = Poll.objects.prefetch_related("questions__choices__answers")
-
     serializer_class = PollDetailSerializer
 
     def retrieve(self, request, *args, **kwargs):
